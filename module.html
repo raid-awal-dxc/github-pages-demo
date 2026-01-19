@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Module – Sustainability Hub</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="data/courses.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container topbar">
+    <a class="brand" href="index.html"><span class="dot"></span>Sustainability&nbsp;Hub</a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="resources.html">Resources</a>
+      <a href="certificates.html">Certificates</a>
+      <button class="theme-toggle" data-action="toggle-theme" aria-pressed="false" title="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container section" id="module-root"></main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const qs = new URLSearchParams(location.search);
+  const courseId = qs.get('course'); const moduleId = qs.get('module');
+  const course = window.COURSES.find(c => c.id === courseId);
+  const mod = course?.modules.find(m => m.id === moduleId);
+
+  if (!course || !mod) {
+    document.getElementById('module-root').innerHTML = `<p>Module not found.</p>`;
+    return;
+  }
+
+  const completed = !!(SustHub.readProgress()?.[course.id]?.[mod.id]?.complete);
+
+  document.getElementById('module-root').innerHTML = `
+    <article class="card">
+      <h1>${course.title} – ${mod.title}</h1>
+      <p class="meta">${mod.duration} minutes</p>
+      <video controls width="100%" aria-label="${mod.title}">
+        <source src="${mod.videoUrl}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="grid" style="grid-template-columns: 1fr; gap:1rem; margin-top:1rem;">
+        <details>
+          <summary><strong>Transcript</strong></summary>
+          <p>${mod.transcript || 'Transcript forthcoming.'}</p>
+        </details>
+        <div>
+          <h3>Resources</h3>
+          <ul>
+            ${(mod.resources || []).map(r => `<li><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a></li>`).join('') || '<li>None</li>'}
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:1rem;" class="grid" aria-label="Next actions">
+        <a class="btn" href="course.html?id=${encodeURIComponent(course.id)}">Back to course</a>
+        ${mod.quiz ? `<a class="btn" href="quiz.html?course=${encodeURIComponent(course.id)}&module=${encodeURIComponent(mod.id)}">Take quiz</a>` : ''}
+        ${!mod.quiz ? `<button id="mark-complete" class="btn ${completed ? '' : 'primary'}">${completed ? 'Completed' : 'Mark as completed'}</button>` : ''}
+      </div>
+    </article>
+  `;
+
+  document.getElementById('mark-complete')?.addEventListener('click', () => {
+    SustHub.setModuleComplete(course.id, mod.id);
+    alert('Module marked as completed.');
+    location.href = `course.html?id=${encodeURIComponent(course.id)}`;
+  });
+});
+</script>
+</body>
+</html>

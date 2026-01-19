@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz – Sustainability Hub</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="data/quizzes.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/quiz.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container topbar">
+    <a class="brand" href="index.html"><span class="dot"></span>Sustainability&nbsp;Hub</a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="resources.html">Resources</a>
+      <a href="certificates.html">Certificates</a>
+      <button class="theme-toggle" data-action="toggle-theme" aria-pressed="false" title="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container section">
+  <h1>Module Quiz</h1>
+  <form class="quiz" id="quiz-form" onsubmit="return false;" aria-describedby="quiz-help">
+    <p id="quiz-help" class="meta">Select the best answer for each question, then submit.</p>
+    <div id="quiz-mount" aria-live="polite"></div>
+    <div style="margin-top:1rem;">
+      <button id="quiz-submit" class="btn primary" type="button">Submit answers</button>
+    </div>
+    <div id="quiz-results" class="feedback" aria-live="polite"></div>
+  </form>
+</main>
+</body>
+</html>

@@ -1,11 +1,78 @@
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Project</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sustainability Hub – Learn, Act, Measure</title>
+  <meta name="description" content="Practical sustainability and ESG training with video modules, curated readings, and interactive quizzes." />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="data/courses.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
 </head>
 <body>
-    <h1>Github Pages</h1>
-    <p>This page is hosted using Github Pages!</p>
+<header class="site-header" role="banner">
+  <div class="container topbar">
+    <a class="brand" href="index.html" aria-label="Sustainability Hub home">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Sustainability&nbsp;Hub</span>
+    </a>
+    <nav class="nav" role="navigation" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="resources.html">Resources</a>
+      <a href="dashboard.html">My Progress</a>
+      <a href="certificates.html">Certificates</a>
+      <button class="theme-toggle" data-action="toggle-theme" aria-pressed="false" title="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container" id="content">
+  <section class="hero" aria-labelledby="hero-title">
+    <h1 id="hero-title">Practical sustainability learning for every role</h1>
+    <p>Video modules, curated reading, and interactive quizzes to help your organisation meet sustainability and ESG goals.</p>
+    <div>
+      <a class="btn primary" href="courses.html">Browse Courses</a>
+      <a class="btn" href="resources.html">Explore Resources</a>
+    </div>
+    <div class="kpis" role="list" aria-label="Platform highlights">
+      <div class="kpi" role="listitem"><strong>+25</strong><span>Modules</span></div>
+      <div class="kpi" role="listitem"><strong>5</strong><span>Tracks</span></div>
+      <div class="kpi" role="listitem"><strong>15–20 min</strong><span>Bite‑size lessons</span></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="featured-courses-title">
+    <h2 id="featured-courses-title">Featured Courses</h2>
+    <div id="featured-courses" class="grid cards" aria-live="polite">
+      <!-- Injected by app.js from window.COURSES -->
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>How it works</h2>
+    <div class="grid cards">
+      <article class="card">
+        <h3>Watch</h3>
+        <p>Short video modules with transcripts and chapter markers.</p>
+      </article>
+      <article class="card">
+        <h3>Read</h3>
+        <p>Curated references from respected standards and initiatives.</p>
+      </article>
+      <article class="card">
+        <h3>Practice</h3>
+        <p>Interactive quizzes reinforce learning, unlock badges, and track progress.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Sustainability Hub. Built for engaged, measurable learning.</p>
+  </div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</footer>
 </body>
 </html>

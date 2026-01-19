@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Progress – Sustainability Hub</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="data/courses.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container topbar">
+    <a class="brand" href="index.html"><span class="dot"></span>Sustainability&nbsp;Hub</a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="resources.html">Resources</a>
+      <a href="dashboard.html">My Progress</a>
+      <a href="certificates.html">Certificates</a>
+      <button class="theme-toggle" data-action="toggle-theme" aria-pressed="false" title="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container section">
+  <h1>Your Progress</h1>
+  <div id="progress-list" class="grid cards"></div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const mount = document.getElementById('progress-list');
+  const courses = window.COURSES || [];
+  if (!courses.length) { mount.innerHTML = '<p>No courses available.</p>'; return; }
+
+  mount.innerHTML = courses.map(c => {
+    const s = SustHub.isCourseCompleted(c);
+    return `
+      <article class="card">
+        <h3>${c.title}</h3>
+        <p class="meta">${c.category} • ${c.level} • ${c.modules.length} modules</p>
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${s.pct}">
+          <span style="width:${s.pct}%"></span>
+        </div>
+        <p class="meta">${s.done}/${s.total} modules completed • Quizzes passed: ${s.allQuizzesPassed ? 'Yes' : 'No'}</p>
+        <div class="grid" style="grid-template-columns:auto auto; gap:.5rem;">
+          <a class="btn" href="course.html?id=${encodeURIComponent(c.id)}">Go to course</a>
+        </div>
+      </article>
+    `;
+  }).join('');
+});
+</script>
+</body>
+</html>
