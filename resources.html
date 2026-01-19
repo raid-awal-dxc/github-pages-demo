@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resources – Sustainability Hub</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="data/courses.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container topbar">
+    <a class="brand" href="index.html"><span class="dot"></span>Sustainability&nbsp;Hub</a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="resources.html">Resources</a>
+      <a href="dashboard.html">My Progress</a>
+      <a href="certificates.html">Certificates</a>
+      <button class="theme-toggle" data-action="toggle-theme" aria-pressed="false" title="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container section">
+  <h1>Curated Resources</h1>
+  <div id="res-list" class="grid cards"></div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const mount = document.getElementById('res-list');
+  const resources = [...new Set(window.COURSES.flatMap(c => c.modules.flatMap(m => m.resources || [])))];
+  if (!resources.length) {
+    mount.innerHTML = '<p>No resources yet.</p>';
+    return;
+  }
+  mount.innerHTML = resources.map(r => `
+    <article class="card">
+      <h3>${r.title}</h3>
+      <p><a href="${r.url}" target="_blank" rel="noopener">Open resource</a></p>
+    </article>
+  `).join('');
+});
+</script>
+</body>
+</html>

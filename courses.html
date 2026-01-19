@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Courses – Sustainability Hub</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="data/courses.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container topbar">
+    <a class="brand" href="index.html"><span class="dot"></span>Sustainability&nbsp;Hub</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="resources.html">Resources</a>
+      <a href="dashboard.html">My Progress</a>
+      <a href="certificates.html">Certificates</a>
+      <button class="theme-toggle" data-action="toggle-theme" aria-pressed="false" title="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="section">
+    <h1>All Courses</h1>
+    <div class="grid" style="grid-template-columns: 1fr 2fr; gap: 1rem;">
+      <aside class="card" aria-label="Filters">
+        <label for="filter-cat">Category</label>
+        <select id="filter-cat" class="input">
+          <option value="">All</option>
+          <option>Foundations</option>
+          <option>Climate</option>
+          <option>Waste</option>
+          <option>Social</option>
+        </select>
+      </aside>
+      <div>
+        <div id="catalog-courses" class="grid cards">
+          <!-- Injected by app.js -->
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const select = document.getElementById('filter-cat');
+  const mount = document.getElementById('catalog-courses');
+
+  function render(list) {
+    if (!list || !list.length) {
+      mount.innerHTML = `<p>No courses found.</p>`;
+      return;
+    }
+    mount.innerHTML = list.map(c => {
+      const pct = SustHub.getCourseProgress(c.id, c.modules).pct;
+      return `
+        <article class="card" aria-labelledby="card-${c.id}">
+          <div class="badge">${c.level}</div>
+          <h3 id="card-${c.id}">${c.title}</h3>
+          <p class="meta">${c.category} • ~${c.estimate} mins • ${c.modules.length} modules</p>
+          <p>${c.summary}</p>
+          <div class="progress" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
+            <span style="width: ${pct}%"></span>
+          </div>
+          <div><a class="btn" href="course.html?id=${encodeURIComponent(c.id)}">View course</a></div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  render(window.COURSES);
+
+  select.addEventListener('change', () => {
+    const val = select.value;
+    const filtered = val ? window.COURSES.filter(c => c.category === val) : window.COURSES;
+    render(filtered);
+  });
+});
+</script>
+</body>
+</html>
