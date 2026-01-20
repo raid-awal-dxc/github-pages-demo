@@ -6,7 +6,9 @@
   <title>Sustainability Hub – Learn, Act, Measure</title>
   <meta name="description" content="Practical sustainability and ESG training with video modules, curated readings, and interactive quizzes." />
   <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.js"></script>
   <script src="data/courses.js" defer></script>
+  <script src="auth.js" defer></script>
   <script src="assets/js/app.js" defer></script>
 </head>
 <body>
@@ -22,6 +24,7 @@
       <a href="resources.html">Resources</a>
       <a href="dashboard.html">My Progress</a>
       <a href="certificates.html">Certificates</a>
+      <a id="auth-link" href="login.html">Login</a>
       <button class="theme-toggle" data-action="toggle-theme" aria-pressed="false" title="Toggle theme">🌓</button>
     </nav>
   </div>
@@ -73,6 +76,26 @@
     <p>© <span id="year"></span> Sustainability Hub. Built for engaged, measurable learning.</p>
   </div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    // Update auth link based on login state
+    async function updateAuthLink() {
+      const user = await getUser();
+      const authLink = document.getElementById('auth-link');
+      if (user) {
+        authLink.textContent = 'Logout';
+        authLink.href = '#';
+        authLink.addEventListener('click', async (e) => {
+          e.preventDefault();
+          await signOut();
+          location.reload();
+        });
+      } else {
+        authLink.textContent = 'Login';
+        authLink.href = 'login.html';
+      }
+    }
+    updateAuthLink();
+  </script>
 </footer>
 </body>
 </html>

@@ -40,7 +40,7 @@
     }).join('');
   }
 
-  function grade() {
+  async function grade() {
     let correct = 0;
     const total = questions.length;
     questions.forEach((q, i) => {
@@ -59,7 +59,7 @@
 
     // Persist module completion
     if (passed && window.SustHub) {
-      window.SustHub.setModuleComplete(courseId, moduleId, scorePct);
+      await window.SustHub.setModuleComplete(courseId, moduleId, scorePct);
     }
   }
 

@@ -28,12 +28,13 @@
 </main>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const qs = new URLSearchParams(location.search);
   const id = qs.get('id');
   const course = window.COURSES.find(c => c.id === id) || window.COURSES[0];
 
-  const prog = SustHub.getCourseProgress(course.id, course.modules);
+  const prog = await SustHub.getCourseProgress(course.id, course.modules);
+  const progressData = await SustHub.readProgress();
 
   const modulesList = course.modules.map(m => `
     <li class="card" style="list-style: none;">
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <a class="btn" href="module.html?course=${encodeURIComponent(course.id)}&module=${encodeURIComponent(m.id)}">Watch module</a>
           ${m.quiz ? `<a class="btn" href="quiz.html?course=${encodeURIComponent(course.id)}&module=${encodeURIComponent(m.id)}">Take quiz</a>` : ``}
         </div>
-        <div class="badge" aria-live="polite">${(SustHub.readProgress()?.[course.id]?.[m.id]?.complete) ? 'Completed' : 'Not started'}</div>
+        <div class="badge" aria-live="polite">${(progressData?.[course.id]?.[m.id]?.complete) ? 'Completed' : 'Not started'}</div>
       </div>
     </li>
   `).join('');

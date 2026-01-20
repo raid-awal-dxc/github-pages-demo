@@ -25,7 +25,7 @@
 <main class="container section" id="module-root"></main>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const qs = new URLSearchParams(location.search);
   const courseId = qs.get('course'); const moduleId = qs.get('module');
   const course = window.COURSES.find(c => c.id === courseId);
@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const completed = !!(SustHub.readProgress()?.[course.id]?.[mod.id]?.complete);
+  const progressData = await SustHub.readProgress();
+  const completed = !!(progressData?.[course.id]?.[mod.id]?.complete);
 
   document.getElementById('module-root').innerHTML = `
     <article class="card">
@@ -66,8 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
     </article>
   `;
 
-  document.getElementById('mark-complete')?.addEventListener('click', () => {
-    SustHub.setModuleComplete(course.id, mod.id);
+  document.getElementById('mark-complete')?.addEventListener('click', async () => {
+    await SustHub.setModuleComplete(course.id, mod.id);
     alert('Module marked as completed.');
     location.href = `course.html?id=${encodeURIComponent(course.id)}`;
   });
