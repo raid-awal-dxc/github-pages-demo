@@ -123,3 +123,10 @@ export async function updatePassword(newPassword) {
   if (error) return { ok: false, error };
   return { ok: true, user: data?.user ?? null };
 }
+
+// Make functions globally available
+window.signUp = signUp;
+window.signIn = signIn;
+window.getUser = getUser;
+window.requireAuth = requireAuth;
+window.signOut = signOut;
